@@ -60,6 +60,14 @@ int main()
     buttonInst downButton;
     buttonInst leftButton;
 
+    ledInst modeLed;
+    ledInst upLed;
+    ledInst downLed;
+
+    Led_MakeInst(&modeLed, LED_0);
+    Led_MakeInst(&upLed, LED_1);
+    Led_MakeInst(&downLed, LED_2);
+
     print("Hello World\n\r");
     print("Successfully ran Hello World application\n\r");
 
@@ -68,27 +76,54 @@ int main()
     Button_MakeInst(&downButton, BUTTON_2);
     Button_MakeInst(&leftButton, BUTTON_3);
 
+    int buttonState = 0;
+
     while(1)
     {
     	if(Button_GetState(&upButton)){
 			printf("pressed upButton\n");
-			led_on();
+			Led_Toggle(&modeLed);
+//			buttonState = 0;
     	}
 
     	if(Button_GetState(&rightButton)){
 			printf("pressed rightButton\n");
-			led_toggle_1sec();
+//			buttonState = 1;
+			Led_On(&upLed);
+			Led_Off(&downLed);
 		}
 
     	if(Button_GetState(&downButton)){
 			printf("pressed downButton\n");
-			led_leftShift();
+//			buttonState = 2;
+			Led_Off(&upLed);
+			Led_On(&downLed);
 		}
 
     	if(Button_GetState(&leftButton)){
 			printf("pressed leftButton\n");
-			led_rightShift();
+//			buttonState = 3;
+			Led_RightShift();
+			Led_LeftShift();
 		}
+
+//    	switch(buttonState){
+//    	case 0 :
+//    		Led_Toggle(&modeLed);
+//    		break;
+//    	case 1 :
+//    		Led_On(&upLed);
+//    		Led_Off(&downLed);
+//    		break;
+//    	case 2 :
+//    		Led_Off(&upLed);
+//    		Led_On(&downLed);
+//    		break;
+//    	case 3 :
+//    		Led_LeftShift();
+//    		Led_RightShift();
+//    		break;
+//    	}
     }
 
     cleanup_platform();
